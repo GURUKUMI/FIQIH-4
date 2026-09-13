@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Clash of Champions - Fiqih Balig Class 4</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0d19;
+            --card-bg: rgba(18, 24, 43, 0.95);
+            --neon-blue: #00f0ff;
+            --neon-purple: #b006ff;
+            --neon-gold: #ffd700;
+            --neon-green: #00ff66;
+            --neon-red: #ff0055;
+            --text-color: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Rajdhani', sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 50% 10%, rgba(176, 6, 255, 0.25) 0%, transparent 50%),
+                radial-gradient(circle at 50% 90%, rgba(0, 240, 255, 0.15) 0%, transparent 50%);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        /* Mobile Viewport Container */
+        .app-container {
+            width: 100%;
+            max-width: 450px;
+            height: 100vh;
+            max-height: 900px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            background: var(--card-bg);
+            border: 2px solid rgba(0, 240, 255, 0.3);
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.2);
+            padding: 15px;
+            overflow: hidden;
+        }
+
+        @media (min-height: 700px) and (min-width: 460px) {
+            .app-container {
+                height: 92vh;
+                border-radius: 24px;
+            }
+        }
+
+        /* Common Cyber UI Components */
+        .cyber-header {
+            text-align: center;
+            padding: 10px 0;
+            border-bottom: 2px solid var(--neon-purple);
+            position: relative;
+        }
+
+        .cyber-header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4rem;
+            letter-spacing: 2px;
+            color: var(--neon-blue);
+            text-shadow: 0 0 10px var(--neon-blue);
+            text-transform: uppercase;
+        }
+
+        .cyber-header p {
+            font-size: 0.85rem;
+            color: #a0a5c0;
+            letter-spacing: 1px;
+        }
+
+        .btn-cyber {
+            background: linear-gradient(135deg, var(--neon-purple), #4a00e0);
+            border: 1px solid var(--neon-blue);
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            padding: 14px 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(176, 6, 255, 0.4);
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            text-align: center;
+        }
+
+        .btn-cyber:active {
+            transform: scale(0.96);
+            box-shadow: 0 0 5px rgba(176, 6, 255, 0.8);
+        }
+
+        /* Screens Management */
+        .screen {
+            display: none;
+            flex-direction: column;
+            height: 100%;
+            justify-content: space-between;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* SCREEN 1: RANDOMIZER */
+        .randomizer-box {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .spinner-card {
+            width: 90%;
+            height: 180px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid var(--neon-blue);
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: inset 0 0 20px rgba(0, 240, 255, 0.2), 0 0 15px rgba(0, 240, 255, 0.3);
+            position: relative;
+        }
+
+        .name-display {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--neon-gold);
+            text-shadow: 0 0 15px var(--neon-gold);
+            text-align: center;
+        }
+
+        .student-status {
+            font-size: 0.9rem;
+            color: #8a8fb0;
+            text-align: center;
+        }
+
+        /* SCREEN 2: GAMEPLAY */
+        .game-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .player-badge {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-gold);
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .timer-badge {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-blue);
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .timer-low {
+            color: var(--neon-red) !important;
+            animation: pulse 0.5s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { opacity: 1; }
+            to { opacity: 0.4; }
+        }
+
+        .question-card {
+            background: rgba(10, 15, 30, 0.8);
+            border: 1px solid var(--neon-purple);
+            border-radius: 16px;
+            padding: 15px;
+            min-height: 130px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            margin: 10px 0;
+        }
+
+        .question-text {
+            font-size: 1.15rem;
+            font-weight: 600;
+            line-height: 1.4;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .option-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            border-radius: 10px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        .option-num {
+            background: var(--neon-blue);
+            color: #000;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            width: 26px;
+            height: 26px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .option-item.correct {
+            background: rgba(0, 255, 102, 0.2) !important;
+            border-color: var(--neon-green) !important;
+            color: var(--neon-green);
+        }
+
+        .option-item.wrong {
+            background: rgba(255, 0, 85, 0.2) !important;
+            border-color: var(--neon-red) !important;
+            color: var(--neon-red);
+        }
+
+        /* KEYPAD NUMERIK FUTURISTIK */
+        .keypad-container {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            background: rgba(0,0,0,0.4);
+            padding: 10px;
+            border-radius: 16px;
+            border: 1px solid rgba(0, 240, 255, 0.2);
+        }
+
+        .keypad-title {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #7a80a0;
+            letter-spacing: 1px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .keypad-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .key-btn {
+            background: linear-gradient(180deg, #1f2942 0%, #111726 100%);
+            border: 2px solid var(--neon-blue);
+            color: var(--neon-blue);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            height: 55px;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5), 0 0 8px rgba(0, 240, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.1s;
+        }
+
+        .key-btn:active, .key-btn.pressed {
+            transform: translateY(3px);
+            background: var(--neon-blue);
+            color: #000;
+            box-shadow: 0 0 15px var(--neon-blue);
+        }
+
+        /* SCREEN 3: SCOREBOARD */
+        .scoreboard-list {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            overflow-y: auto;
+            margin: 15px 0;
+            padding-right: 4px;
+        }
+
+        .score-item {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 14px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .score-rank {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            width: 30px;
+            color: #8a8fb0;
+        }
+
+        .score-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            flex-grow: 1;
+        }
+
+        .score-val {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-green);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .top-1 { border-color: var(--neon-gold); background: rgba(255, 215, 0, 0.1); }
+        .top-1 .score-rank { color: var(--neon-gold); font-size: 1.2rem; }
+        .top-2 { border-color: #c0c0c0; background: rgba(192, 192, 192, 0.1); }
+        .top-2 .score-rank { color: #c0c0c0; }
+        .top-3 { border-color: #cd7f32; background: rgba(205, 127, 50, 0.1); }
+        .top-3 .score-rank { color: #cd7f32; }
+
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <!-- SCREEN 1: RANDOMIZER -->
+        <div id="screen-randomizer" class="screen active">
+            <div class="cyber-header">
+                <h1>Clash of Champions</h1>
+                <p>Fiqih Kelas 4: Tanda-Tanda Balig</p>
+            </div>
+
+            <div class="randomizer-box">
+                <div class="spinner-card">
+                    <div id="display-name" class="name-display">SIAP?</div>
+                </div>
+                <div id="student-count" class="student-status">Siswa tersisa: 9 / 9</div>
+                <button id="btn-spin" class="btn-cyber" onclick="startSpin()">ACAK NAMA</button>
+            </div>
+
+            <button class="btn-cyber" style="background: transparent; border-color: rgba(255,255,255,0.2); font-size: 0.8rem;" onclick="showScoreboard()">LIHAT KLASEMEN</button>
+        </div>
+
+        <!-- SCREEN 2: GAMEPLAY -->
+        <div id="screen-game" class="screen">
+            <div class="game-meta">
+                <div class="player-badge">
+                    <span>👤</span> <span id="game-player-name">PLAYER</span>
+                </div>
+                <div class="timer-badge">
+                    ⏱️ <span id="game-timer">15</span>s
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div id="question-text" class="question-text">Memuat pertanyaan...</div>
+            </div>
+
+            <div id="options-container" class="options-grid">
+                <!-- 4 Pilihan Jawaban -->
+            </div>
+
+            <div class="keypad-container">
+                <div class="keypad-title">PRESS KEYPAD TO ANSWER</div>
+                <div class="keypad-grid">
+                    <button class="key-btn" onclick="submitAnswer(1)">1</button>
+                    <button class="key-btn" onclick="submitAnswer(2)">2</button>
+                    <button class="key-btn" onclick="submitAnswer(3)">3</button>
+                    <button class="key-btn" onclick="submitAnswer(4)">4</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN 3: SCOREBOARD -->
+        <div id="screen-scoreboard" class="screen">
+            <div class="cyber-header">
+                <h1>Papan Klasemen</h1>
+                <p>Leaderboard Sementara / Akhir</p>
+            </div>
+
+            <div id="scoreboard-list" class="scoreboard-list">
+                <!-- List Skor -->
+            </div>
+
+            <button class="btn-cyber" onclick="backToRandomizer()">LANIUTKAN PERMAINAN</button>
+        </div>
+
+    </div>
+
+    <script>
+        // WEB AUDIO API SYSTEM (No external sound assets needed)
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+
+        function initAudio() {
+            if (!audioCtx) audioCtx = new AudioContext();
+        }
+
+        function playSound(type) {
+            if (!audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            const now = audioCtx.currentTime;
+
+            if (type === 'tick') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(600, now);
+                gain.gain.setValueAtTime(0.05, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+                osc.start(now);
+                osc.stop(now + 0.05);
+            } else if (type === 'spin') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(300 + Math.random() * 200, now);
+                gain.gain.setValueAtTime(0.05, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+                osc.start(now);
+                osc.stop(now + 0.04);
+            } else if (type === 'correct') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, now); // C5
+                osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
+                osc.frequency.setValueAtTime(783.99, now + 0.2); // G5
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+                osc.start(now);
+                osc.stop(now + 0.4);
+            } else if (type === 'wrong') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(180, now);
+                osc.frequency.setValueAtTime(110, now + 0.15);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+                osc.start(now);
+                osc.stop(now + 0.4);
+            }
+        }
+
+        // DATA SISWA & SCOREBOARD
+        const initialStudents = [
+            "Azalea", "Altha", "Aira", "Nuki", 
+            "Nafis", "Zaki", "Liyudza", "Syafeeya", "Wahid"
+        ];
+        
+        let remainingStudents = [...initialStudents];
+        let scoreboard = initialStudents.map(name => ({ name, score: 0, completed: false }));
+
+        // BANK SOAL FIQIH KELAS 4 (TANDA BALIG)
+        const questionBank = [
+            {
+                q: "Secara bahasa, kata 'Balig' memiliki arti...",
+                options: ["Sampai atau Cukup", "Suci dan Bersih", "Kewajiban Shalat", "Perubahan Fisik"],
+                answer: 1
+            },
+            {
+                q: "Manakah yang merupakan tanda balig secara biologis/fiqih bagi anak laki-laki?",
+                options: ["Mencapai usia 10 tahun", "Mimpi Basah (Ihtilam)", "Suara menjadi lebih melengking", "Tumbuh gigi bungsu"],
+                answer: 2
+            },
+            {
+                q: "Tanda utama balig secara biologis bagi anak perempuan adalah mengalami...",
+                options: ["Mimpi Basah", "Haid (Menstruasi)", "Suara Membesar", "Tumbuh Jakun"],
+                answer: 2
+            },
+            {
+                q: "Jika seorang anak belum mengalami haid/mimpi basah, ia tetap dianggap balig jika usianya mencapai...",
+                options: ["12 Tahun Hijriah", "15 Tahun Hijriah", "17 Tahun Masehi", "20 Tahun Masehi"],
+                answer: 2
+            },
+            {
+                q: "Setelah mengalami mimpi basah atau haid, seseorang wajib bersuci dengan cara...",
+                options: ["Wudhu saja", "Tayamum", "Mandi Wajib (Janabah)", "Mencuci muka"],
+                answer: 3
+            },
+            {
+                q: "Salah satu rukun mandi wajib setelah berhadas besar adalah...",
+                options: ["Memakai sabun wangi", "Niat dan meratakan air ke seluruh tubuh", "Mengeringkan dengan handuk", "Membaca doa makan"],
+                answer: 2
+            },
+            {
+                q: "Seseorang yang telah memasuki usia balig disebut...",
+                options: ["Muallaf", "Mukallaf (Dibebani hukum syariat)", "Mustahiq", "Munafik"],
+                answer: 2
+            },
+            {
+                q: "Perubahan fisik biologis yang dialami anak laki-laki saat pubertas adalah...",
+                options: ["Pinggul membesar", "Tumbuh jakun dan suara membesar", "Kulit menjadi keriput", "Tinggi badan menyusut"],
+                answer: 2
+            },
+            {
+                q: "Konsekuensi hukum bagi anak yang sudah balig terhadap Shalat 5 Waktu adalah...",
+                options: ["Boleh ditinggalkan", "Hukumnya Wajib 'Ain (berdosa jika ditinggalkan)", "Hukumnya Sunnah", "Cukup dibayar dengan fidyah"],
+                answer: 2
+            },
+            {
+                q: "Perubahan fisik pada anak perempuan saat memasuki masa pubertas/balig adalah...",
+                options: ["Suara membesar berat", "Tumbuh jakun di leher", "Dada dan pinggul mulai berkembang", "Tumbuh kumis tebal"],
+                answer: 3
+            }
+        ];
+
+        // GAMEPLAY VARIABLES
+        let currentStudent = "";
+        let currentQuestion = null;
+        let timerInterval = null;
+        let timeLeft = 15;
+        let isAnsweringAllowed = false;
+
+        // RANDOMIZER LOGIC
+        function startSpin() {
+            initAudio();
+            if (remainingStudents.length === 0) {
+                alert("Semua siswa sudah tampil! Membuka Papan Klasemen Akhir.");
+                showScoreboard();
+                return;
+            }
+
+            const btnSpin = document.getElementById('btn-spin');
+            btnSpin.disabled = true;
+
+            let counter = 0;
+            const totalSpins = 20;
+            const spinInterval = setInterval(() => {
+                const randomIndex = Math.floor(Math.random() * remainingStudents.length);
+                document.getElementById('display-name').innerText = remainingStudents[randomIndex];
+                playSound('spin');
+                counter++;
+
+                if (counter >= totalSpins) {
+                    clearInterval(spinInterval);
+                    const selectedIndex = Math.floor(Math.random() * remainingStudents.length);
+                    currentStudent = remainingStudents[selectedIndex];
+                    document.getElementById('display-name').innerText = currentStudent;
+                    
+                    // Remove selected student from pool
+                    remainingStudents.splice(selectedIndex, 1);
+                    document.getElementById('student-count').innerText = `Siswa tersisa: ${remainingStudents.length} / 9`;
+
+                    setTimeout(() => {
+                        btnSpin.disabled = false;
+                        startQuizForStudent(currentStudent);
+                    }, 1200);
+                }
+            }, 80);
+        }
+
+        // QUIZ LOGIC
+        function startQuizForStudent(studentName) {
+            document.getElementById('screen-randomizer').classList.remove('active');
+            document.getElementById('screen-game').classList.add('active');
+
+            document.getElementById('game-player-name').innerText = studentName;
+            
+            // Pick random question from bank
+            const qIndex = Math.floor(Math.random() * questionBank.length);
+            currentQuestion = questionBank[qIndex];
+
+            // Render Question & Options
+            document.getElementById('question-text').innerText = currentQuestion.q;
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            currentQuestion.options.forEach((opt, idx) => {
+                const optDiv = document.createElement('div');
+                optDiv.className = 'option-item';
+                optDiv.id = `opt-${idx + 1}`;
+                optDiv.innerHTML = `
+                    <div class="option-num">${idx + 1}</div>
+                    <div>${opt}</div>
+                `;
+                optionsContainer.appendChild(optDiv);
+            });
+
+            // Timer Setup
+            timeLeft = 15;
+            document.getElementById('game-timer').innerText = timeLeft;
+            document.getElementById('game-timer').classList.remove('timer-low');
+            isAnsweringAllowed = true;
+
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('game-timer').innerText = timeLeft;
+                
+                if (timeLeft <= 5 && timeLeft > 0) {
+                    document.getElementById('game-timer').classList.add('timer-low');
+                    playSound('tick');
+                }
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    handleTimeout();
+                }
+            }, 1000);
+        }
+
+        function submitAnswer(chosenOption) {
+            if (!isAnsweringAllowed) return;
+            isAnsweringAllowed = false;
+            clearInterval(timerInterval);
+
+            // Highlight Pressed Keypad Animation
+            const keyBtns = document.querySelectorAll('.key-btn');
+            if(keyBtns[chosenOption - 1]) {
+                keyBtns[chosenOption - 1].classList.add('pressed');
+                setTimeout(() => keyBtns[chosenOption - 1].classList.remove('pressed'), 200);
+            }
+
+            const isCorrect = chosenOption === currentQuestion.answer;
+            const chosenEl = document.getElementById(`opt-${chosenOption}`);
+            const correctEl = document.getElementById(`opt-${currentQuestion.answer}`);
+
+            if (isCorrect) {
+                if(chosenEl) chosenEl.classList.add('correct');
+                playSound('correct');
+                // Calculate Score: Base 100 + Time Bonus
+                const scoreGained = 100 + (timeLeft * 10);
+                updateScore(currentStudent, scoreGained);
+            } else {
+                if(chosenEl) chosenEl.classList.add('wrong');
+                if(correctEl) correctEl.classList.add('correct');
+                playSound('wrong');
+                updateScore(currentStudent, 0);
+            }
+
+            setTimeout(() => {
+                showScoreboard();
+            }, 2000);
+        }
+
+        function handleTimeout() {
+            if (!isAnsweringAllowed) return;
+            isAnsweringAllowed = false;
+            playSound('wrong');
+
+            const correctEl = document.getElementById(`opt-${currentQuestion.answer}`);
+            if(correctEl) correctEl.classList.add('correct');
+            
+            updateScore(currentStudent, 0);
+
+            setTimeout(() => {
+                showScoreboard();
+            }, 2000);
+        }
+
+        function updateScore(studentName, points) {
+            const studentData = scoreboard.find(s => s.name === studentName);
+            if (studentData) {
+                studentData.score += points;
+                studentData.completed = true;
+            }
+        }
+
+        // SCOREBOARD LOGIC
+        function showScoreboard() {
+            document.getElementById('screen-randomizer').classList.remove('active');
+            document.getElementById('screen-game').classList.remove('active');
+            document.getElementById('screen-scoreboard').classList.add('active');
+
+            // Sort by score descending
+            const sortedList = [...scoreboard].sort((a, b) => b.score - a.score);
+            const container = document.getElementById('scoreboard-list');
+            container.innerHTML = '';
+
+            sortedList.forEach((item, index) => {
+                const scoreEl = document.createElement('div');
+                let rankClass = '';
+                let badge = `${index + 1}`;
+                if (index === 0) { rankClass = 'top-1'; badge = '👑 1'; }
+                else if (index === 1) { rankClass = 'top-2'; badge = '🥈 2'; }
+                else if (index === 2) { rankClass = 'top-3'; badge = '🥉 3'; }
+
+                scoreEl.className = `score-item ${rankClass}`;
+                scoreEl.innerHTML = `
+                    <div class="score-rank">${badge}</div>
+                    <div class="score-name">${item.name} ${item.completed ? '✓' : ''}</div>
+                    <div class="score-val">${item.score} pts</div>
+                `;
+                container.appendChild(scoreEl);
+            });
+        }
+
+        function backToRandomizer() {
+            document.getElementById('screen-scoreboard').classList.remove('active');
+            document.getElementById('screen-randomizer').classList.add('active');
+            document.getElementById('display-name').innerText = remainingStudents.length > 0 ? "SIAP?" : "SELESAI!";
+        }
+
+        // PHYSICAL KEYBOARD SUPPORT (1, 2, 3, 4)
+        window.addEventListener('keydown', (e) => {
+            if (document.getElementById('screen-game').classList.contains('active')) {
+                if (['1', '2', '3', '4'].includes(e.key)) {
+                    submitAnswer(parseInt(e.key));
+                }
+            }
+        });
+    </script>
+</body>
+</html>
